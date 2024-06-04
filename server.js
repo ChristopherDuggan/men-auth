@@ -22,7 +22,7 @@ app.use(morgan('dev'));
 /* ------------ Routes ---------- */
 
 app.get('/', async (req, res) => {
-  res.send('we did it!')  
+  res.render('index.ejs');
 });
 
 
