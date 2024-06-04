@@ -30,6 +30,29 @@ router.get('/sign-in', (req, res) => {
   res.render('auth/sign-in.ejs');
 });
 
+router.post('/sign-in', async (req, res) => {
+  const userInDatabase = await User.findOne({ username: req.body.username })
+  if (!userInDatabase) {
+    return res.send('no user in the db, my dog');
+  }
+
+  const validPassword = bcrypt.compareSync(
+    req.body.password,
+    userInDatabase.password
+  );
+
+  if (!validPassword) {
+    return res.send('your password is wrooooooong. You should feel bad.');
+  }
+
+  req.session.user = {
+    username: userInDatabase.username,
+  };
+
+  res.redirect('/')
+
+});
+
 module.exports = router;
 
 
